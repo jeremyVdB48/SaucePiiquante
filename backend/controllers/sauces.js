@@ -1,4 +1,4 @@
-const Sauces = require('../models/sauces');
+const Sauces = require('../models/sauces'); //donne accés à la route ...
 const fs = require("fs");// = donne accés a des fonctions pour modifier les fichiers
 
 
@@ -45,20 +45,20 @@ exports.deleteSauce = (req, res, next) => {
 
 // RECUPERATION D' UNE SAUCE SPECIFIQUE
 exports.getOneSauce = (req, res, next) => {
-    Sauces.findOne({_id: req.params.id })
+    Sauces.findOne({_id: req.params.id }) // findOne recupere 1 seul sauce par son id
     .then(sauce => res.status(200).json(sauce))
     .catch(error => res.status(404).json({ error }));
   };
 
 // RECUPERATION DE TOUTES LES SAUCES
 exports.getAllSauce = (req, res, next) => {
-  Sauces.find()
+  Sauces.find() // find recup toutes les sauces
   .then(sauces => res.status(200).json(sauces))
   .catch(error => res.status(400).json({ error }));
 };
 
 
-// RECUPERATION DES LIKES
+// RECUPERATION DU LIKE DU USERID ET DE L'ID DE LA SAUCE
 exports.likeSauce = (req, res, next) =>{
     const like        = req.body.like;
     const utilisateur = req.body.userId;
@@ -68,33 +68,33 @@ console.log(like);
 console.log(utilisateur);
 console.log(choixSauce);
 
-  if (like === 1) {
-    Sauces.updateOne({ _id: choixSauce } , {$push:{ usersLiked: utilisateur}, $inc:{ likes: +1} })
+  if (like === 1) { // si on click sur le pouce vers le haut
+    Sauces.updateOne({ _id: choixSauce } , {$push:{ usersLiked: utilisateur}, $inc:{ likes: +1} }) // ici on recup l'id de la sauce on utilise la methode $push pour recup l'id de l'utilisateur et on modififie avec $inc le like par un +1
    
       .then(() => res.status(200).json({ message: "J'aime !"}))
       .catch(error => res.status(400).json({ error }));
 
   }
 
-  if (like === -1) {
-    Sauces.updateOne({ _id: choixSauce } , {$push:{ usersDisliked: utilisateur}, $inc:{ dislikes: +1} })
+  if (like === -1) { // si on click sur le pouce vers le bas
+    Sauces.updateOne({ _id: choixSauce } , {$push:{ usersDisliked: utilisateur}, $inc:{ dislikes: +1} }) // ici on recup l'id de la sauce on utilise la methode $push pour recup l'id de l'utilisateur et on modififie avec $inc le dislike par un -1
    
       .then(() => res.status(200).json({ message: "J'aime pas !"}))
       .catch(error => res.status(400).json({ error }));
 
   }
    
-  if (like === 0) {
+  if (like === 0) { // permet de modifier un like ou un dislike
     Sauces.findOne({ _id: choixSauce })  
       .then((sauce)=>{
-        if (sauce.usersLiked.includes( utilisateur )) { Sauces.updateOne({ _id: choixSauce } , {$pull:{ usersLiked: utilisateur}, $inc:{ likes: -1} })
+        if (sauce.usersLiked.includes( utilisateur )) { Sauces.updateOne({ _id: choixSauce } , {$pull:{ usersLiked: utilisateur}, $inc:{ likes: -1} }) // ici on modifie le like
           
         .then(() => res.status(200).json({ message: "J'aime retiré !"}))
         .catch((error) => res.status(400).json({ error }));
 
         }  
   
-        if (sauce.usersDisliked.includes( utilisateur )) { Sauces.updateOne({ _id: choixSauce } , {$pull:{ usersDisliked: utilisateur}, $inc:{ dislikes: -1} })
+        if (sauce.usersDisliked.includes( utilisateur )) { Sauces.updateOne({ _id: choixSauce } , {$pull:{ usersDisliked: utilisateur}, $inc:{ dislikes: -1} }) // ici on modifie le dislike
 
         .then(() => res.status(200).json({ message: "Je n'aime pas retiré !"}))
         .catch((error) => res.status(400).json({ error }));

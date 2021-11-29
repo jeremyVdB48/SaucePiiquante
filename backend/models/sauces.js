@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // npm install mongoose = facilite les interactions avec mongodb
 
 // ON CREE LE SCHEMA DE LA SAUCE (NAME, DESCRIPTION, IMAGEURL ETC...)
   // ON INDIQUE LE TYPE DE DONNEE (STRING, NUMBER) ET SI IL ES OBLIGATOIRE OU NON (REQUIRED:) ET L'AJOUT DE DEFAULT POUR METTRE UN NOMBRE PAR DEFAULT

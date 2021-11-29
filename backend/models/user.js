@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"); // npm install mongoose = facilite les interactions avec mongodb
 const uniqueValidator = require('mongoose-unique-validator'); // npm install --save mongoose-unique-validator = package qui permet de pré-valider les informations avant de les enregister
 
 const userSchema = mongoose.Schema({

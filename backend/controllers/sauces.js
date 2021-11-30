@@ -84,7 +84,7 @@ console.log(choixSauce);
 
   }
    
-  if (like === 0) { // permet de modifier un like ou un dislike
+  if (like === 0) { // permet à l'utilisateur de modifier son like ou son dislike
     Sauces.findOne({ _id: choixSauce })  
       .then((sauce)=>{
         if (sauce.usersLiked.includes( utilisateur )) { Sauces.updateOne({ _id: choixSauce } , {$pull:{ usersLiked: utilisateur}, $inc:{ likes: -1} }) // ici on modifie le like

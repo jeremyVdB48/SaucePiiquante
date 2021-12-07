@@ -19,7 +19,7 @@ exports.createSauce = (req, res, next) => {
 // ON CREE UNE INSTANCE POUR MODIFIER LA SAUCE
 exports.modifySauce = (req, res, next) => {
   
-  Sauces.findOne({_id: req.params.id }) // findOne recupere 1 seul sauce par son id
+  Sauces.findOne({_id: req.params.id }) 
   .then(sauce => {
     if(req.body.userId == sauce.userId ){
 

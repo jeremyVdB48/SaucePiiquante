@@ -18,7 +18,12 @@ exports.createSauce = (req, res, next) => {
 
 // ON CREE UNE INSTANCE POUR MODIFIER LA SAUCE
 exports.modifySauce = (req, res, next) => {
-    const sauceObject = req.file ?
+  
+  Sauces.findOne({_id: req.params.id }) // findOne recupere 1 seul sauce par son id
+  .then(sauce => {
+    if(req.body.userId == sauce.userId ){
+
+ const sauceObject = req.file ?
     {
     ...JSON.parse(req.body.sauce),
     imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`  
@@ -26,6 +31,15 @@ exports.modifySauce = (req, res, next) => {
   Sauces.updateOne({_id: req.params.id}, {...sauceObject, _id: req.params.id})// la methode updateOne permet de mettre à jour la sauce
   .then(() => res.status(201).json({message: 'Sauce modifiée !'}))
   .catch(error => res.status(400).json({ error }));
+    
+
+    }
+  else{
+    res.status(403).json({ message: "Cet utilisateur n'a pas la permission de modifier cette sauce" });
+  } 
+    })
+  .catch(error => res.status(404).json({ error }));
+ 
 };
 
 

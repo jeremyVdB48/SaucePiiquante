@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt"); // npm install bcrypt = package de cryptage 
 const User = require("../models/user"); // donne accés à la route ...
 const jwt = require("jsonwebtoken"); // npm install jsonwebtoken = créér et vérifier des tokens
+require('dotenv').config();
 
 // CRYPTE LE MOT DE PASSE ET L'ENREGISTRE
 exports.signup = (req, res, next) => {
@@ -32,7 +33,7 @@ exports.login = (req, res, next) => {
               userId: user._id,
               token: jwt.sign(
                 { userId: user._id },
-                'RANDOM_TOKEN_SECRET',
+                process.env.SECRET_TOKEN,
                 { expiresIn: '24h' }
               )
             });

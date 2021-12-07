@@ -1,7 +1,8 @@
-// ON CREE LE SERVEUR NODE
+// ON CREE L'ACCEES AU SERVEUR
 
 const http = require('http');
 const app = require('./app');
+
 
 const normalizePort = val => {
   const port = parseInt(val, 10);

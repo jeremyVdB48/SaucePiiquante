@@ -4,17 +4,19 @@ const express       = require("express"); //npm install --save express = framewo
 const bodyParser    = require("body-parser"); //npm install --save body-parser = middleware qui prend en charge le format JSON
 const mongoose      = require("mongoose"); // npm install --save mongoose = facilite les interactions avec notre base de données MongoDB
 const morgan        = require("morgan"); // npm install --save-dev morgan = génère automatiquement un journal de toutes mes requètes
+const helmet        = require("helmet");
 
 const userRoutes    = require("./routes/user"); // declaration d'une constante qui amenera directement vers ./routes/user
 const saucesRoutes  = require('./routes/sauces'); // declaration d'une constante qui amenera directement vers ./routes/sauces
-const path          = require("path"); //
+const path          = require("path"); // permet de se deplacer dans les dossiers et fichiers
 
+require('dotenv').config();
 
 const app = express();
 
 
 // CONNEXION A LA BASE DE DONNEES MONGODB AVEC UTILISATION DE PROMESSE EN CAS DE REUSSITE OU D'ECHEC 
-mongoose.connect('mongodb+srv://gegette2:gegette69@cluster0.kfr51.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect("mongodb+srv://" + process.env.DB_USER_PASS + "@cluster0.kfr51.mongodb.net/test?retryWrites=true&w=majority",
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !')) // si connexion établie
@@ -22,6 +24,8 @@ mongoose.connect('mongodb+srv://gegette2:gegette69@cluster0.kfr51.mongodb.net/te
 
 
 
+
+app.use(helmet());
 // (MIDDLEWARE) AJOUT DES HEADERS POUR ACCEDER A L'API
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); //permet l'accés depuis n'importe quelle origine
